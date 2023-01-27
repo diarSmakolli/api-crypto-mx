@@ -16,7 +16,7 @@ function auth (req, res, next) {
 
     try {
         // Verify token
-        jwt.verify(token, process.env.CRYPTO_SECRET, (err, user) => {
+        jwt.verify(token, 'vCoLpSaItoZoPkZov2fkwovVodawT', (err, user) => {
             if(err) {
                 return res.status(403).json({
                     success: false,
