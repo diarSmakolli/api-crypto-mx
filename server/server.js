@@ -73,20 +73,20 @@ app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(
     cors({
-      origin: ["http://localhost:3000", "https://cryptomx-app.onrender.com"],
+      origin: ["http://localhost:3000", "http://dijar.me"],
       credentials: true,
     })
   );
 
 
-if(process.env.NODE_ENV == 'production') {
-  const path1 = require('path');
+// if(process.env.NODE_ENV == 'production') {
+//   const path1 = require('path');
 
-  app.get('/', (req, res) => {
-    app.use(express.static(path.resolve(path.resolve(__dirname, 'client', 'build'))))
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-  })
-}
+//   app.get('/', (req, res) => {
+//     app.use(express.static(path.resolve(path.resolve(__dirname, 'client', 'build'))))
+//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+//   })
+// }
 
 
 
