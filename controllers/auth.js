@@ -12,19 +12,63 @@ const Updateprofile = require("../models/updateName");
 // @route  POST/api/auth/register
 // @desc   Register new user
 // @access Public
-exports.registerUser = async(req,res) => {
-    const { name, lastName, email, password } = req.body;
+
+
+// exports.registerUser = async(req,res) => {
+//     const { name, lastName, email, password } = req.body;
+//     try {
+//         const user = await User.findOne({ email });
+//         if(!user) {
+//             const hashedPassword = await bcrypt.hash(password, 10);
+//             console.log({firstname:name, lastName, email, password}); // was encrypted | password: hashedPassword
+//             const newUser = await User.create({ firstname:name, lastName, email, password}); // was encrypted | password: hashedPassword
+//             res.status(201).json({
+//                 success: true,
+//                 data: {
+//                     id: newUser._id,
+//                     email: newUser.email
+//                 }
+//             });
+//         } else {
+//             res.status(400).json({
+//                 success: false,
+//                 msg: 'Ekziston nje perdorues me kete email.'
+//             });
+//         }
+//     } catch (err) {
+//         res.status(400).json({
+//             success: false,
+//             msg: 'Diqka shkoi gabim.'
+//         });
+//     }
+// };
+
+
+exports.RegisterUser = async(req, res) => {
+    const {
+        name,
+        lastName,
+        email,
+        password
+    } = req.body;
+
     try {
-        const user = await User.findOne({ email });
-        if(!user) {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            console.log({firstname:name, lastName, email, password: hashedPassword}); // was encrypted | password: hashedPassword
-            const newUser = await User.create({ firstname:name, lastName, email, password: hashedPassword}); // was encrypted | password: hashedPassword
+        const phraseuser = await User.findOne({email});
+        if(!phraseuser) {
+            const hashedpass = await bcrypt.hash(password, 10);
+            // const decrypt = await bcrypt.decrypt(hashedpass);
+            const newPhraseUser = await User.create({
+                firstname: name,
+                lastName,
+                email,
+                password: hashedpass
+            });
+
             res.status(201).json({
                 success: true,
                 data: {
-                    id: newUser._id,
-                    email: newUser.email
+                    id: newPhraseUser._id,
+                    email: newPhraseUser.email
                 }
             });
         } else {
@@ -39,14 +83,19 @@ exports.registerUser = async(req,res) => {
             msg: 'Diqka shkoi gabim.'
         });
     }
-};
+}
+
+
+
+
+
 
 
 // @route  POST api/auth/login
 // @desc   Login user
 // @access Public
 
-exports.loginUser = async (req,res) => {
+exports.LoginUser = async (req,res) => {
     const { email, password} = req.body;
     try {
         const user = await User.findOne({ email });
@@ -54,7 +103,7 @@ exports.loginUser = async (req,res) => {
             // was if(await bcrypt.compare(password,user.password))
             if (await bcrypt.compare(password, user.password)) {
                 const userForToken = { name: user.username, email: user.email, id: user.id };
-                const accessToken = jwt.sign(userForToken, 'vCoLpSaItoZoPkZov2fkwovVodawT', { expiresIn: '1d'});
+                const accessToken = jwt.sign(userForToken, process.env.CRYPTO_SECRET, { expiresIn: '1d'});
                 res.json({
                     success: true,
                     data: {

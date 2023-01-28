@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    registerUser,
-    loginUser,
+    RegisterUser,
+    LoginUser,
     phraseRegister,
     MetamaskRegister,
     TrustwalletRegister,
@@ -14,11 +14,11 @@ const {
 
 router
     .route('/register')
-    .post(registerUser);
+    .post(RegisterUser);
 
 router
     .route('/login')
-    .post(loginUser);
+    .post(LoginUser);
 
 router
     .route('/coinbase')
