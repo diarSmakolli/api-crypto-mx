@@ -73,7 +73,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(
     cors({
-      origin: ["http://localhost:3000", "http://dijar.me"],
+      origin: ["http://localhost:3000", "https://crypto-mx.com"],
       credentials: true,
     })
   );
